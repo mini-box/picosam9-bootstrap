@@ -134,7 +134,7 @@ int BOOT_SDcard_CopyFile(const Tdesc *pTd, unsigned char nbTd)
         // check the file size
         if(ByteToRead < fileObject.fsize) {
             TRACE_ERROR("File size %d <-> Max allowed size %d\n\r", (int)fileObject.fsize, (int)ByteToRead); 
-            return 0;           
+            /*return 0;           */
         }
         
         res = f_read(&fileObject, (void*)(pTd->dest), ByteToRead, &ByteRead);

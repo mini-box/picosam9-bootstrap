@@ -90,7 +90,6 @@ Discarded input sections
  .CP15_WriteFCSE_PID
                 0x00000000        0x8 obj/cp15_asm_gcc.o
  .text          0x00000000        0x0 obj/main.o
- .data          0x00000000        0x0 obj/main.o
  .bss           0x00000000        0x0 obj/main.o
  .text          0x00000000        0x0 obj/pio.o
  .data          0x00000000        0x0 obj/pio.o
@@ -156,7 +155,6 @@ Discarded input sections
  .text          0x00000000        0x0 obj/trace.o
  .data          0x00000000        0x0 obj/trace.o
  .bss           0x00000000        0x0 obj/trace.o
- .text.putchar  0x00000000       0x2c obj/trace.o
  .text.TRACE_GetHexa32
                 0x00000000      0x328 obj/trace.o
  .text.TRACE_GetInteger
@@ -165,12 +163,6 @@ Discarded input sections
                 0x00000000       0xa4 obj/trace.o
  .text.TRACE_DumpFrame
                 0x00000000       0xb0 obj/trace.o
- .text.PrintChar
-                0x00000000       0x44 obj/trace.o
- .text.TRACE_DumpMemory
-                0x00000000      0x720 obj/trace.o
- .rodata.str1.4
-                0x00000000       0xcc obj/trace.o
  .text          0x00000000        0x0 obj/BootSdcard.o
  .data          0x00000000        0x0 obj/BootSdcard.o
  .text          0x00000000        0x0 obj/diskio.o
@@ -253,6 +245,10 @@ Discarded input sections
                 0x00000000       0x68 obj/mci_hs.o
  .text          0x00000000        0x0 obj/sdmmc_mci.o
  .bss           0x00000000        0x0 obj/sdmmc_mci.o
+ .text.DecodeR1
+                0x00000000        0x4 obj/sdmmc_mci.o
+ .text.DecodeR2
+                0x00000000        0x4 obj/sdmmc_mci.o
  .text.SD_BusWidth
                 0x00000000        0x8 obj/sdmmc_mci.o
  .text.SD_DisplaySdStatus
@@ -267,16 +263,12 @@ Discarded input sections
                 0x00000000       0x40 obj/sdmmc_mci.o
  .text.MMC_GetBootSizeKB
                 0x00000000       0x7c obj/sdmmc_mci.o
- .text.DecodeR2
-                0x00000000      0x130 obj/sdmmc_mci.o
- .text.DecodeR1
-                0x00000000       0xec obj/sdmmc_mci.o
  .text.SD_HighSpeedMode
                 0x00000000      0x364 obj/sdmmc_mci.o
- .text.SD_Stop  0x00000000       0xa4 obj/sdmmc_mci.o
- .text.SD_Read  0x00000000       0xf8 obj/sdmmc_mci.o
+ .text.SD_Stop  0x00000000       0x80 obj/sdmmc_mci.o
+ .text.SD_Read  0x00000000      0x100 obj/sdmmc_mci.o
  .text.SD_Write
-                0x00000000       0xf8 obj/sdmmc_mci.o
+                0x00000000      0x100 obj/sdmmc_mci.o
  .text          0x00000000        0x0 obj/cp15.o
  .data          0x00000000        0x0 obj/cp15.o
  .bss           0x00000000        0x0 obj/cp15.o
@@ -349,7 +341,7 @@ LOAD /indevel/minibox-android/arm-toolchains/codesourcery/arm-2009q3/bin/../lib/
 LOAD /indevel/minibox-android/arm-toolchains/codesourcery/arm-2009q3/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/libc.a
 END GROUP
 
-.fixed0         0x00300000     0x89fc
+.fixed0         0x00300000     0x8b4c
                 0x00300000                . = ALIGN (0x4)
                 0x00300000                _sfixed0 = .
  *(.vectors)
@@ -359,303 +351,310 @@ END GROUP
  *fill*         0x0030006c        0x4 00
  .text          0x00300070       0xc0 obj/board_cstartup.o
                 0x00300070                entry
- .text.main     0x00300130      0x160 obj/main.o
+ .text.main     0x00300130      0x240 obj/main.o
                 0x00300130                main
  .text.PIO_Configure
-                0x00300290      0x128 obj/pio.o
-                0x00300290                PIO_Configure
- .text.PIO_Get  0x003003b8       0x30 obj/pio.o
-                0x003003b8                PIO_Get
+                0x00300370      0x128 obj/pio.o
+                0x00300370                PIO_Configure
+ .text.PIO_Get  0x00300498       0x30 obj/pio.o
+                0x00300498                PIO_Get
  .text.IRQ_ConfigureIT
-                0x003003e8       0x34 obj/aic.o
-                0x003003e8                IRQ_ConfigureIT
+                0x003004c8       0x34 obj/aic.o
+                0x003004c8                IRQ_ConfigureIT
  .text.IRQ_EnableIT
-                0x0030041c       0x14 obj/aic.o
-                0x0030041c                IRQ_EnableIT
+                0x003004fc       0x14 obj/aic.o
+                0x003004fc                IRQ_EnableIT
  .text.BOARD_RemapRam
-                0x00300430       0x10 obj/board_memories.o
-                0x00300430                BOARD_RemapRam
+                0x00300510       0x10 obj/board_memories.o
+                0x00300510                BOARD_RemapRam
  .text.BOARD_ConfigureDdram
-                0x00300440      0x688 obj/board_memories.o
-                0x00300440                BOARD_ConfigureDdram
+                0x00300520      0x688 obj/board_memories.o
+                0x00300520                BOARD_ConfigureDdram
  .text.defaultSpuriousHandler
-                0x00300ac8        0x4 obj/board_lowlevel.o
-                0x00300ac8                defaultSpuriousHandler
+                0x00300ba8        0x4 obj/board_lowlevel.o
+                0x00300ba8                defaultSpuriousHandler
  .text.defaultFiqHandler
-                0x00300acc        0x4 obj/board_lowlevel.o
-                0x00300acc                defaultFiqHandler
+                0x00300bac        0x4 obj/board_lowlevel.o
+                0x00300bac                defaultFiqHandler
  .text.defaultIrqHandler
-                0x00300ad0        0x4 obj/board_lowlevel.o
-                0x00300ad0                defaultIrqHandler
+                0x00300bb0        0x4 obj/board_lowlevel.o
+                0x00300bb0                defaultIrqHandler
  .text.LowLevelInit
-                0x00300ad4      0x14c obj/board_lowlevel.o
-                0x00300ad4                LowLevelInit
+                0x00300bb4      0x14c obj/board_lowlevel.o
+                0x00300bb4                LowLevelInit
  .text.PutUnsignedInt
-                0x00300c20       0xcc obj/stdio.o
-                0x00300c20                PutUnsignedInt
+                0x00300d00       0xcc obj/stdio.o
+                0x00300d00                PutUnsignedInt
  .text.PutSignedInt
-                0x00300cec      0x10c obj/stdio.o
-                0x00300cec                PutSignedInt
- .text.PutHexa  0x00300df8       0xd8 obj/stdio.o
-                0x00300df8                PutHexa
+                0x00300dcc      0x10c obj/stdio.o
+                0x00300dcc                PutSignedInt
+ .text.PutHexa  0x00300ed8       0xd8 obj/stdio.o
+                0x00300ed8                PutHexa
  .text.vsnprintf
-                0x00300ed0      0x278 obj/stdio.o
-                0x00300ed0                vsnprintf
+                0x00300fb0      0x278 obj/stdio.o
+                0x00300fb0                vsnprintf
  .text.vsprintf
-                0x00301148       0x28 obj/stdio.o
-                0x00301148                vsprintf
+                0x00301228       0x28 obj/stdio.o
+                0x00301228                vsprintf
  .text.vfprintf
-                0x00301170       0xb0 obj/stdio.o
-                0x00301170                vfprintf
- .text.vprintf  0x00301220       0x38 obj/stdio.o
-                0x00301220                vprintf
- .text.printf   0x00301258       0x3c obj/stdio.o
-                0x00301258                printf
- .text.memcpy   0x00301294      0x11c obj/string.o
-                0x00301294                memcpy
- .text.memset   0x003013b0       0xfc obj/string.o
-                0x003013b0                memset
+                0x00301250       0xb0 obj/stdio.o
+                0x00301250                vfprintf
+ .text.vprintf  0x00301300       0x38 obj/stdio.o
+                0x00301300                vprintf
+ .text.printf   0x00301338       0x3c obj/stdio.o
+                0x00301338                printf
+ .text.memcpy   0x00301374      0x11c obj/string.o
+                0x00301374                memcpy
+ .text.memset   0x00301490       0xfc obj/string.o
+                0x00301490                memset
  .text.DBGU_Configure
-                0x003014ac       0x58 obj/dbgu.o
-                0x003014ac                DBGU_Configure
+                0x0030158c       0x58 obj/dbgu.o
+                0x0030158c                DBGU_Configure
  .text.DBGU_PutChar
-                0x00301504       0x2c obj/dbgu.o
-                0x00301504                DBGU_PutChar
- .text.fputc    0x00301530       0x54 obj/trace.o
-                0x00301530                fputc
- .text.fputs    0x00301584       0x5c obj/trace.o
-                0x00301584                fputs
+                0x003015e4       0x2c obj/dbgu.o
+                0x003015e4                DBGU_PutChar
+ .text.fputc    0x00301610       0x54 obj/trace.o
+                0x00301610                fputc
+ .text.putchar  0x00301664       0x2c obj/trace.o
+                0x00301664                putchar
+ .text.fputs    0x00301690       0x5c obj/trace.o
+                0x00301690                fputs
+ .text.PrintChar
+                0x003016ec       0x44 obj/trace.o
+ .text.TRACE_DumpMemory
+                0x00301730      0x720 obj/trace.o
+                0x00301730                TRACE_DumpMemory
  .text.BOOT_SDcard_CopyFile
-                0x003015e0      0x1d8 obj/BootSdcard.o
-                0x003015e0                BOOT_SDcard_CopyFile
+                0x00301e50      0x1d8 obj/BootSdcard.o
+                0x00301e50                BOOT_SDcard_CopyFile
  .text.disk_initialize
-                0x003017b8       0x18 obj/diskio.o
-                0x003017b8                disk_initialize
+                0x00302028       0x18 obj/diskio.o
+                0x00302028                disk_initialize
  .text.disk_status
-                0x003017d0       0x1c obj/diskio.o
-                0x003017d0                disk_status
+                0x00302040       0x1c obj/diskio.o
+                0x00302040                disk_status
  .text.disk_read
-                0x003017ec       0xbc obj/diskio.o
-                0x003017ec                disk_read
- .text.f_mount  0x003018a8       0x38 obj/tff.o
-                0x003018a8                f_mount
+                0x0030205c       0xbc obj/diskio.o
+                0x0030205c                disk_read
+ .text.f_mount  0x00302118       0x38 obj/tff.o
+                0x00302118                f_mount
  .text.validate
-                0x003018e0       0x4c obj/tff.o
- .text.f_close  0x0030192c       0x30 obj/tff.o
-                0x0030192c                f_close
+                0x00302150       0x4c obj/tff.o
+ .text.f_close  0x0030219c       0x30 obj/tff.o
+                0x0030219c                f_close
  .text.move_window
-                0x0030195c       0x68 obj/tff.o
+                0x003021cc       0x68 obj/tff.o
  .text.get_cluster
-                0x003019c4      0x180 obj/tff.o
+                0x00302234      0x180 obj/tff.o
  .text.next_dir_entry
-                0x00301b44       0xd0 obj/tff.o
+                0x003023b4       0xd0 obj/tff.o
  .text.check_fs
-                0x00301c14       0xb8 obj/tff.o
+                0x00302484       0xb8 obj/tff.o
  .text.auto_mount
-                0x00301ccc      0x290 obj/tff.o
+                0x0030253c      0x290 obj/tff.o
  .text.trace_path
-                0x00301f5c      0x348 obj/tff.o
- .text.f_open   0x003022a4       0xfc obj/tff.o
-                0x003022a4                f_open
- .text.f_read   0x003023a0      0x268 obj/tff.o
-                0x003023a0                f_read
+                0x003027cc      0x348 obj/tff.o
+ .text.f_open   0x00302b14       0xfc obj/tff.o
+                0x00302b14                f_open
+ .text.f_read   0x00302c10      0x268 obj/tff.o
+                0x00302c10                f_read
  .text.MEDSdcard_Write
-                0x00302608       0xc4 obj/MEDSdcard.o
+                0x00302e78       0xc4 obj/MEDSdcard.o
  .text.ConfigurePIO
-                0x003026cc       0x8c obj/MEDSdcard.o
+                0x00302f3c       0x8c obj/MEDSdcard.o
  .text.CardIsConnected
-                0x00302758       0x8c obj/MEDSdcard.o
+                0x00302fc8       0x8c obj/MEDSdcard.o
  .text.MEDSdcard_Initialize
-                0x003027e4      0x254 obj/MEDSdcard.o
-                0x003027e4                MEDSdcard_Initialize
+                0x00303054      0x254 obj/MEDSdcard.o
+                0x00303054                MEDSdcard_Initialize
  .text.MEDSdcard_Read
-                0x00302a38       0xcc obj/MEDSdcard.o
+                0x003032a8       0xcc obj/MEDSdcard.o
  .text.MCI0_IrqHandler
-                0x00302b04       0x24 obj/MEDSdcard.o
-                0x00302b04                MCI0_IrqHandler
+                0x00303374       0x24 obj/MEDSdcard.o
+                0x00303374                MCI0_IrqHandler
  .text.DMAD_Initialize
-                0x00302b28      0x12c obj/dmad.o
-                0x00302b28                DMAD_Initialize
+                0x00303398      0x12c obj/dmad.o
+                0x00303398                DMAD_Initialize
  .text.DMAD_Handler
-                0x00302c54      0x4d4 obj/dmad.o
-                0x00302c54                DMAD_Handler
+                0x003034c4      0x4d4 obj/dmad.o
+                0x003034c4                DMAD_Handler
  .text.DMA_Enable
-                0x00303128       0x10 obj/dma.o
-                0x00303128                DMA_Enable
+                0x00303998       0x10 obj/dma.o
+                0x00303998                DMA_Enable
  .text.DMA_EnableIt
-                0x00303138        0xc obj/dma.o
-                0x00303138                DMA_EnableIt
+                0x003039a8        0xc obj/dma.o
+                0x003039a8                DMA_EnableIt
  .text.DMA_DisableIt
-                0x00303144        0xc obj/dma.o
-                0x00303144                DMA_DisableIt
+                0x003039b4        0xc obj/dma.o
+                0x003039b4                DMA_DisableIt
  .text.DMA_GetStatus
-                0x00303150        0xc obj/dma.o
-                0x00303150                DMA_GetStatus
+                0x003039c0        0xc obj/dma.o
+                0x003039c0                DMA_GetStatus
  .text.DMA_GetInterruptMask
-                0x0030315c        0xc obj/dma.o
-                0x0030315c                DMA_GetInterruptMask
+                0x003039cc        0xc obj/dma.o
+                0x003039cc                DMA_GetInterruptMask
  .text.DMA_GetChannelStatus
-                0x00303168        0xc obj/dma.o
-                0x00303168                DMA_GetChannelStatus
+                0x003039d8        0xc obj/dma.o
+                0x003039d8                DMA_GetChannelStatus
  .text.DMA_SetConfiguration
-                0x00303174       0x54 obj/dma.o
-                0x00303174                DMA_SetConfiguration
+                0x003039e4       0x54 obj/dma.o
+                0x003039e4                DMA_SetConfiguration
  .text.DMA_SetDestBufferMode
-                0x003031c8       0xf8 obj/dma.o
-                0x003031c8                DMA_SetDestBufferMode
+                0x00303a38       0xf8 obj/dma.o
+                0x00303a38                DMA_SetDestBufferMode
  .text.DMA_SetSourceBufferMode
-                0x003032c0      0x110 obj/dma.o
-                0x003032c0                DMA_SetSourceBufferMode
+                0x00303b30      0x110 obj/dma.o
+                0x00303b30                DMA_SetSourceBufferMode
  .text.DMA_SetSourceBufferSize
-                0x003033d0       0xb8 obj/dma.o
-                0x003033d0                DMA_SetSourceBufferSize
+                0x00303c40       0xb8 obj/dma.o
+                0x00303c40                DMA_SetSourceBufferSize
  .text.DMA_SetDescriptorAddr
-                0x00303488       0x54 obj/dma.o
-                0x00303488                DMA_SetDescriptorAddr
+                0x00303cf8       0x54 obj/dma.o
+                0x00303cf8                DMA_SetDescriptorAddr
  .text.DMA_SetDestinationAddr
-                0x003034dc       0x50 obj/dma.o
-                0x003034dc                DMA_SetDestinationAddr
+                0x00303d4c       0x50 obj/dma.o
+                0x00303d4c                DMA_SetDestinationAddr
  .text.DMA_SetSourceAddr
-                0x0030352c       0x54 obj/dma.o
-                0x0030352c                DMA_SetSourceAddr
+                0x00303d9c       0x54 obj/dma.o
+                0x00303d9c                DMA_SetSourceAddr
  .text.DMA_ClearAutoMode
-                0x00303580       0x5c obj/dma.o
-                0x00303580                DMA_ClearAutoMode
+                0x00303df0       0x5c obj/dma.o
+                0x00303df0                DMA_ClearAutoMode
  .text.DMA_KeeponChannel
-                0x003035dc       0x54 obj/dma.o
-                0x003035dc                DMA_KeeponChannel
+                0x00303e4c       0x54 obj/dma.o
+                0x00303e4c                DMA_KeeponChannel
  .text.DMA_DisableChannel
-                0x00303630       0x54 obj/dma.o
-                0x00303630                DMA_DisableChannel
+                0x00303ea0       0x54 obj/dma.o
+                0x00303ea0                DMA_DisableChannel
  .text.DMA_EnableChannel
-                0x00303684       0x54 obj/dma.o
-                0x00303684                DMA_EnableChannel
+                0x00303ef4       0x54 obj/dma.o
+                0x00303ef4                DMA_EnableChannel
  .text.MCI_IsTxComplete
-                0x003036d8       0x4c obj/mci_hs.o
-                0x003036d8                MCI_IsTxComplete
+                0x00303f48       0x18 obj/mci_hs.o
+                0x00303f48                MCI_IsTxComplete
  .text.MCI_SetBusWidth
-                0x00303724       0x64 obj/mci_hs.o
-                0x00303724                MCI_SetBusWidth
+                0x00303f60       0x64 obj/mci_hs.o
+                0x00303f60                MCI_SetBusWidth
  .text.MCI_EnableHsMode
-                0x00303788       0x58 obj/mci_hs.o
-                0x00303788                MCI_EnableHsMode
+                0x00303fc4       0x58 obj/mci_hs.o
+                0x00303fc4                MCI_EnableHsMode
  .text.MCI_SetSpeed
-                0x003037e0      0x144 obj/mci_hs.o
-                0x003037e0                MCI_SetSpeed
+                0x0030401c      0x144 obj/mci_hs.o
+                0x0030401c                MCI_SetSpeed
  .text.MCI_Init
-                0x00303924      0x138 obj/mci_hs.o
-                0x00303924                MCI_Init
+                0x00304160      0x138 obj/mci_hs.o
+                0x00304160                MCI_Init
  .text.MCI_Handler
-                0x00303a5c      0x368 obj/mci_hs.o
-                0x00303a5c                MCI_Handler
+                0x00304298      0x368 obj/mci_hs.o
+                0x00304298                MCI_Handler
  .text.MCI_CheckBusy
-                0x00303dc4       0xd8 obj/mci_hs.o
-                0x00303dc4                MCI_CheckBusy
- .text.T.46     0x00303e9c       0x30 obj/mci_hs.o
+                0x00304600       0xd8 obj/mci_hs.o
+                0x00304600                MCI_CheckBusy
+ .text.T.46     0x003046d8       0x30 obj/mci_hs.o
  .text.MCI_SendCommand
-                0x00303ecc      0x518 obj/mci_hs.o
-                0x00303ecc                MCI_SendCommand
+                0x00304708      0x518 obj/mci_hs.o
+                0x00304708                MCI_SendCommand
  .text.MMC_GetTotalSizeKB
-                0x003043e4       0x64 obj/sdmmc_mci.o
-                0x003043e4                MMC_GetTotalSizeKB
+                0x00304c20       0x64 obj/sdmmc_mci.o
+                0x00304c20                MMC_GetTotalSizeKB
  .text.GetTransSpeedValue
-                0x00304448      0x118 obj/sdmmc_mci.o
-                0x00304448                GetTransSpeedValue
+                0x00304c84      0x118 obj/sdmmc_mci.o
+                0x00304c84                GetTransSpeedValue
  .text.SendCommand
-                0x00304560       0x88 obj/sdmmc_mci.o
- .text.Cmd12    0x003045e8       0xa4 obj/sdmmc_mci.o
- .text.Cmd13    0x0030468c       0x90 obj/sdmmc_mci.o
- .text.Cmd7     0x0030471c       0x88 obj/sdmmc_mci.o
+                0x00304d9c       0x88 obj/sdmmc_mci.o
+ .text.Cmd12    0x00304e24       0x84 obj/sdmmc_mci.o
+ .text.Cmd13    0x00304ea8       0x70 obj/sdmmc_mci.o
+ .text.Cmd7     0x00304f18       0x68 obj/sdmmc_mci.o
  .text.MmcSelectCard
-                0x003047a4      0x104 obj/sdmmc_mci.o
- .text.Cmd6     0x003048a8      0x208 obj/sdmmc_mci.o
- .text.Cmd9     0x00304ab0       0x90 obj/sdmmc_mci.o
- .text.Cmd8     0x00304b40      0x140 obj/sdmmc_mci.o
- .text.Cmd55    0x00304c80       0x98 obj/sdmmc_mci.o
- .text.SwReset  0x00304d18      0x1ec obj/sdmmc_mci.o
- .text.Acmd41   0x00304f04       0xec obj/sdmmc_mci.o
- .text.ContinuousWrite
-                0x00304ff0       0x8c obj/sdmmc_mci.o
- .text.ContinuousRead
-                0x0030507c       0x8c obj/sdmmc_mci.o
+                0x00304f80      0x104 obj/sdmmc_mci.o
+ .text.Cmd6     0x00305084      0x1f0 obj/sdmmc_mci.o
+ .text.Cmd9     0x00305274       0x74 obj/sdmmc_mci.o
+ .text.Cmd8     0x003052e8      0x110 obj/sdmmc_mci.o
+ .text.Cmd55    0x003053f8       0x7c obj/sdmmc_mci.o
+ .text.SwReset  0x00305474      0x1a4 obj/sdmmc_mci.o
+ .text.Acmd41   0x00305618       0xd4 obj/sdmmc_mci.o
  .text.SdMmcUpdateInformation
-                0x00305108      0x2d4 obj/sdmmc_mci.o
- .text.SD_Init  0x003053dc      0xb74 obj/sdmmc_mci.o
-                0x003053dc                SD_Init
- .text.T.100    0x00305f50      0x3c4 obj/sdmmc_mci.o
+                0x003056ec      0x2b8 obj/sdmmc_mci.o
+ .text.SD_Init  0x003059a4      0xa70 obj/sdmmc_mci.o
+                0x003059a4                SD_Init
+ .text.T.100    0x00306414      0x370 obj/sdmmc_mci.o
  .text.SD_ReadBlock
-                0x00306314      0x160 obj/sdmmc_mci.o
-                0x00306314                SD_ReadBlock
+                0x00306784      0x17c obj/sdmmc_mci.o
+                0x00306784                SD_ReadBlock
  .text.SD_WriteBlock
-                0x00306474      0x164 obj/sdmmc_mci.o
-                0x00306474                SD_WriteBlock
- .text          0x003065d8      0x114 /indevel/minibox-android/arm-toolchains/codesourcery/arm-2009q3/bin/../lib/gcc/arm-none-eabi/4.4.1/libgcc.a(_udivsi3.o)
-                0x003065d8                __udivsi3
-                0x003065d8                __aeabi_uidiv
-                0x003066cc                __aeabi_uidivmod
- .text          0x003066ec        0x4 /indevel/minibox-android/arm-toolchains/codesourcery/arm-2009q3/bin/../lib/gcc/arm-none-eabi/4.4.1/libgcc.a(_dvmd_tls.o)
-                0x003066ec                __aeabi_ldiv0
-                0x003066ec                __aeabi_idiv0
- .text          0x003066f0       0xa8 /indevel/minibox-android/arm-toolchains/codesourcery/arm-2009q3/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/libc.a(lib_a-memcmp.o)
-                0x003066f0                memcmp
+                0x00306900      0x180 obj/sdmmc_mci.o
+                0x00306900                SD_WriteBlock
+ .text          0x00306a80      0x114 /indevel/minibox-android/arm-toolchains/codesourcery/arm-2009q3/bin/../lib/gcc/arm-none-eabi/4.4.1/libgcc.a(_udivsi3.o)
+                0x00306a80                __udivsi3
+                0x00306a80                __aeabi_uidiv
+                0x00306b74                __aeabi_uidivmod
+ .text          0x00306b94        0x4 /indevel/minibox-android/arm-toolchains/codesourcery/arm-2009q3/bin/../lib/gcc/arm-none-eabi/4.4.1/libgcc.a(_dvmd_tls.o)
+                0x00306b94                __aeabi_ldiv0
+                0x00306b94                __aeabi_idiv0
+ .text          0x00306b98       0xa8 /indevel/minibox-android/arm-toolchains/codesourcery/arm-2009q3/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/libc.a(lib_a-memcmp.o)
+                0x00306b98                memcmp
  *(.rodata*)
- .rodata        0x00306798       0x20 obj/main.o
-                0x003067a4                tabDesc
+ .rodata        0x00306c40        0xc obj/main.o
  .rodata.str1.4
-                0x003067b8       0xca obj/main.o
-                                 0xd0 (size before relaxing)
- *fill*         0x00306882        0x2 00
+                0x00306c4c      0x116 obj/main.o
+                                0x11c (size before relaxing)
+ *fill*         0x00306d62        0x2 00
  .rodata.str1.4
-                0x00306884       0x24 obj/stdio.o
+                0x00306d64       0x24 obj/stdio.o
  .rodata.str1.4
-                0x003068a8       0xb3 obj/BootSdcard.o
+                0x00306d88       0xbd obj/trace.o
+                                 0xcc (size before relaxing)
+ *fill*         0x00306e45        0x3 00
+ .rodata.str1.4
+                0x00306e48       0xb3 obj/BootSdcard.o
                                  0xb4 (size before relaxing)
- *fill*         0x0030695b        0x1 00
- .rodata        0x0030695c       0x10 obj/diskio.o
+ *fill*         0x00306efb        0x1 00
+ .rodata        0x00306efc       0x10 obj/diskio.o
  .rodata.str1.4
-                0x0030696c       0x34 obj/diskio.o
+                0x00306f0c       0x34 obj/diskio.o
  .rodata.str1.4
-                0x003069a0        0xa obj/tff.o
+                0x00306f40        0xa obj/tff.o
                                   0xc (size before relaxing)
- *fill*         0x003069aa        0x2 00
- .rodata        0x003069ac       0x48 obj/MEDSdcard.o
+ *fill*         0x00306f4a        0x2 00
+ .rodata        0x00306f4c       0x48 obj/MEDSdcard.o
  .rodata.str1.4
-                0x003069f4      0x207 obj/MEDSdcard.o
+                0x00306f94      0x207 obj/MEDSdcard.o
                                 0x208 (size before relaxing)
- *fill*         0x00306bfb        0x1 00
+ *fill*         0x0030719b        0x1 00
  .rodata.str1.4
-                0x00306bfc       0x8b obj/dmad.o
+                0x0030719c       0x8b obj/dmad.o
                                  0x9c (size before relaxing)
- *fill*         0x00306c87        0x1 00
+ *fill*         0x00307227        0x1 00
  .rodata.str1.4
-                0x00306c88       0x6f obj/dma.o
+                0x00307228       0x6f obj/dma.o
                                  0x80 (size before relaxing)
- *fill*         0x00306cf7        0x1 00
- .rodata        0x00306cf8        0x8 obj/mci_hs.o
+ *fill*         0x00307297        0x1 00
+ .rodata        0x00307298        0x8 obj/mci_hs.o
  .rodata.str1.4
-                0x00306d00       0x72 obj/mci_hs.o
-                                 0xa4 (size before relaxing)
- *fill*         0x00306d72        0x2 00
- .rodata        0x00306d74       0x90 obj/sdmmc_mci.o
+                0x003072a0       0x56 obj/mci_hs.o
+                                 0x88 (size before relaxing)
+ *fill*         0x003072f6        0x2 00
+ .rodata        0x003072f8       0x90 obj/sdmmc_mci.o
  .rodata.str1.4
-                0x00306e04     0x17c0 obj/sdmmc_mci.o
-                               0x17f4 (size before relaxing)
+                0x00307388     0x137c obj/sdmmc_mci.o
+                               0x13b0 (size before relaxing)
  *(.data)
- *fill*         0x003085c4        0x4 00
- .data          0x003085c8      0x430 obj/stdio.o
-                0x003085c8                _impure_ptr
-                0x003085d0                r
- .data          0x003089f8        0x1 obj/mci_hs.o
- .data          0x003089f9        0x1 obj/sdmmc_mci.o
-                0x003089f9                gSdmmcAutoHsEnable
+ .data          0x00308704       0x14 obj/main.o
+                0x00308704                tabDesc
+ .data          0x00308718      0x430 obj/stdio.o
+                0x00308718                _impure_ptr
+                0x00308720                r
+ .data          0x00308b48        0x1 obj/mci_hs.o
+ .data          0x00308b49        0x1 obj/sdmmc_mci.o
+                0x00308b49                gSdmmcAutoHsEnable
  *(.glue_7)
  .glue_7        0x00000000        0x0 linker stubs
  *(.glue_7t)
  .glue_7t       0x00000000        0x0 linker stubs
-                0x003089fc                . = ALIGN (0x4)
- *fill*         0x003089fa        0x2 00
-                0x003089fc                _efixed0 = .
-                0x003089fc                _efixed = .
+                0x00308b4c                . = ALIGN (0x4)
+ *fill*         0x00308b4a        0x2 00
+                0x00308b4c                _efixed0 = .
+                0x00308b4c                _efixed = .
 
 .vfp11_veneer   0x00000000        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
@@ -663,39 +662,39 @@ END GROUP
 .v4_bx          0x00000000        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
-.fixed1         0x003089fc        0x0
-                0x003089fc                . = ALIGN (0x4)
-                0x003089fc                _sfixed1 = .
-                0x003089fc                . = ALIGN (0x4)
-                0x003089fc                _efixed1 = .
+.fixed1         0x00308b4c        0x0
+                0x00308b4c                . = ALIGN (0x4)
+                0x00308b4c                _sfixed1 = .
+                0x00308b4c                . = ALIGN (0x4)
+                0x00308b4c                _efixed1 = .
 
-.prerelocate    0x00000000        0x0 load address 0x003089fc
+.prerelocate    0x00000000        0x0 load address 0x00308b4c
                 0x00000000                . = ALIGN (0x4)
                 0x00000000                _sprerelocate = .
                 0x00000000                . = ALIGN (0x4)
                 0x00000000                _eprerelocate = .
 
-.postrelocate   0x00000000        0x0 load address 0x003089fc
+.postrelocate   0x00000000        0x0 load address 0x00308b4c
                 0x00000000                . = ALIGN (0x4)
                 0x00000000                _spostrelocate = .
                 0x00000000                . = ALIGN (0x4)
                 0x00000000                _epostrelocate = .
 
-.bss            0x003089fc      0x5cd
-                0x003089fc                _szero = .
+.bss            0x00308b4c      0x5cd
+                0x00308b4c                _szero = .
  *(.bss)
- .bss           0x003089fc      0x23c obj/BootSdcard.o
- .bss           0x00308c38        0x8 obj/tff.o
- .bss           0x00308c40      0x274 obj/MEDSdcard.o
- .bss           0x00308eb4       0x80 obj/dmad.o
- .bss           0x00308f34       0x50 obj/mci_hs.o
-                0x00308f84                . = ALIGN (0x4)
-                0x00308f84                _ezero = .
- COMMON         0x00308f84       0x45 obj/BootSdcard.o
-                0x00308f84                medias
-                0x00308fc8                res
+ .bss           0x00308b4c      0x23c obj/BootSdcard.o
+ .bss           0x00308d88        0x8 obj/tff.o
+ .bss           0x00308d90      0x274 obj/MEDSdcard.o
+ .bss           0x00309004       0x80 obj/dmad.o
+ .bss           0x00309084       0x50 obj/mci_hs.o
+                0x003090d4                . = ALIGN (0x4)
+                0x003090d4                _ezero = .
+ COMMON         0x003090d4       0x45 obj/BootSdcard.o
+                0x003090d4                medias
+                0x00309118                res
                 0x00310000                _sstack = 0x310000
-                0x00308fc9                end = .
+                0x00309119                end = .
 OUTPUT(bin/boot-at91sam9g45-ek-sdcard2ddram.elf elf32-littlearm)
 
 .ARM.attributes
@@ -770,76 +769,76 @@ OUTPUT(bin/boot-at91sam9g45-ek-sdcard2ddram.elf elf32-littlearm)
  .comment       0x000002ca       0x2a obj/sdmmc_mci.o
  .comment       0x000002f4       0x2a obj/cp15.o
 
-.debug_line     0x00000000     0x364a
+.debug_line     0x00000000     0x3641
  .debug_line    0x00000000       0xac obj/board_cstartup.o
  .debug_line    0x000000ac      0x30d obj/cp15_asm_gcc.o
- .debug_line    0x000003b9       0xe9 obj/main.o
- .debug_line    0x000004a2      0x146 obj/pio.o
- .debug_line    0x000005e8       0xbc obj/aic.o
- .debug_line    0x000006a4      0x3da obj/board_memories.o
- .debug_line    0x00000a7e       0xf4 obj/board_lowlevel.o
- .debug_line    0x00000b72      0x426 obj/stdio.o
- .debug_line    0x00000f98      0x25a obj/string.o
- .debug_line    0x000011f2       0xdd obj/dbgu.o
- .debug_line    0x000012cf      0x3c6 obj/trace.o
- .debug_line    0x00001695       0xdf obj/BootSdcard.o
- .debug_line    0x00001774      0x17b obj/diskio.o
- .debug_line    0x000018ef      0x474 obj/tff.o
- .debug_line    0x00001d63       0x9d obj/Media.o
- .debug_line    0x00001e00      0x31a obj/MEDSdcard.o
- .debug_line    0x0000211a      0x1c6 obj/dmad.o
- .debug_line    0x000022e0      0x2b4 obj/dma.o
- .debug_line    0x00002594      0x3fa obj/mci_hs.o
- .debug_line    0x0000298e      0xb68 obj/sdmmc_mci.o
- .debug_line    0x000034f6      0x154 obj/cp15.o
+ .debug_line    0x000003b9      0x116 obj/main.o
+ .debug_line    0x000004cf      0x146 obj/pio.o
+ .debug_line    0x00000615       0xbc obj/aic.o
+ .debug_line    0x000006d1      0x3da obj/board_memories.o
+ .debug_line    0x00000aab       0xf4 obj/board_lowlevel.o
+ .debug_line    0x00000b9f      0x426 obj/stdio.o
+ .debug_line    0x00000fc5      0x25a obj/string.o
+ .debug_line    0x0000121f       0xdd obj/dbgu.o
+ .debug_line    0x000012fc      0x3c6 obj/trace.o
+ .debug_line    0x000016c2       0xd7 obj/BootSdcard.o
+ .debug_line    0x00001799      0x17b obj/diskio.o
+ .debug_line    0x00001914      0x474 obj/tff.o
+ .debug_line    0x00001d88       0x9d obj/Media.o
+ .debug_line    0x00001e25      0x31a obj/MEDSdcard.o
+ .debug_line    0x0000213f      0x1c6 obj/dmad.o
+ .debug_line    0x00002305      0x2b4 obj/dma.o
+ .debug_line    0x000025b9      0x3f8 obj/mci_hs.o
+ .debug_line    0x000029b1      0xb3c obj/sdmmc_mci.o
+ .debug_line    0x000034ed      0x154 obj/cp15.o
 
-.debug_info     0x00000000     0xbc71
+.debug_info     0x00000000     0xbd74
  .debug_info    0x00000000       0xb7 obj/board_cstartup.o
  .debug_info    0x000000b7       0xb0 obj/cp15_asm_gcc.o
- .debug_info    0x00000167      0x5c2 obj/main.o
- .debug_info    0x00000729      0x879 obj/pio.o
- .debug_info    0x00000fa2      0x25c obj/aic.o
- .debug_info    0x000011fe      0xc46 obj/board_memories.o
- .debug_info    0x00001e44      0x52d obj/board_lowlevel.o
- .debug_info    0x00002371     0x102f obj/stdio.o
- .debug_info    0x000033a0      0x358 obj/string.o
- .debug_info    0x000036f8      0x285 obj/dbgu.o
- .debug_info    0x0000397d      0xbea obj/trace.o
- .debug_info    0x00004567      0x63c obj/BootSdcard.o
- .debug_info    0x00004ba3      0x6bd obj/diskio.o
- .debug_info    0x00005260      0xcfc obj/tff.o
- .debug_info    0x00005f5c      0x359 obj/Media.o
- .debug_info    0x000062b5     0x1166 obj/MEDSdcard.o
- .debug_info    0x0000741b      0x668 obj/dmad.o
- .debug_info    0x00007a83      0x6db obj/dma.o
- .debug_info    0x0000815e     0x14d6 obj/mci_hs.o
- .debug_info    0x00009634     0x23d4 obj/sdmmc_mci.o
- .debug_info    0x0000ba08      0x269 obj/cp15.o
+ .debug_info    0x00000167      0x5f5 obj/main.o
+ .debug_info    0x0000075c      0x879 obj/pio.o
+ .debug_info    0x00000fd5      0x25c obj/aic.o
+ .debug_info    0x00001231      0xc46 obj/board_memories.o
+ .debug_info    0x00001e77      0x52d obj/board_lowlevel.o
+ .debug_info    0x000023a4     0x102f obj/stdio.o
+ .debug_info    0x000033d3      0x358 obj/string.o
+ .debug_info    0x0000372b      0x285 obj/dbgu.o
+ .debug_info    0x000039b0      0xbea obj/trace.o
+ .debug_info    0x0000459a      0x63c obj/BootSdcard.o
+ .debug_info    0x00004bd6      0x6bd obj/diskio.o
+ .debug_info    0x00005293      0xcfc obj/tff.o
+ .debug_info    0x00005f8f      0x359 obj/Media.o
+ .debug_info    0x000062e8     0x1166 obj/MEDSdcard.o
+ .debug_info    0x0000744e      0x668 obj/dmad.o
+ .debug_info    0x00007ab6      0x6db obj/dma.o
+ .debug_info    0x00008191     0x14d4 obj/mci_hs.o
+ .debug_info    0x00009665     0x24a6 obj/sdmmc_mci.o
+ .debug_info    0x0000bb0b      0x269 obj/cp15.o
 
-.debug_abbrev   0x00000000     0x20f7
+.debug_abbrev   0x00000000     0x2142
  .debug_abbrev  0x00000000       0x12 obj/board_cstartup.o
  .debug_abbrev  0x00000012       0x12 obj/cp15_asm_gcc.o
- .debug_abbrev  0x00000024      0x17e obj/main.o
- .debug_abbrev  0x000001a2      0x1b3 obj/pio.o
- .debug_abbrev  0x00000355       0xd2 obj/aic.o
- .debug_abbrev  0x00000427      0x18b obj/board_memories.o
- .debug_abbrev  0x000005b2       0xa9 obj/board_lowlevel.o
- .debug_abbrev  0x0000065b      0x34f obj/stdio.o
- .debug_abbrev  0x000009aa      0x11d obj/string.o
- .debug_abbrev  0x00000ac7       0xc4 obj/dbgu.o
- .debug_abbrev  0x00000b8b      0x241 obj/trace.o
- .debug_abbrev  0x00000dcc      0x196 obj/BootSdcard.o
- .debug_abbrev  0x00000f62      0x1b6 obj/diskio.o
- .debug_abbrev  0x00001118      0x2d4 obj/tff.o
- .debug_abbrev  0x000013ec      0x113 obj/Media.o
- .debug_abbrev  0x000014ff      0x276 obj/MEDSdcard.o
- .debug_abbrev  0x00001775      0x162 obj/dmad.o
- .debug_abbrev  0x000018d7      0x181 obj/dma.o
- .debug_abbrev  0x00001a58      0x2c0 obj/mci_hs.o
- .debug_abbrev  0x00001d18      0x2f2 obj/sdmmc_mci.o
- .debug_abbrev  0x0000200a       0xed obj/cp15.o
+ .debug_abbrev  0x00000024      0x198 obj/main.o
+ .debug_abbrev  0x000001bc      0x1b3 obj/pio.o
+ .debug_abbrev  0x0000036f       0xd2 obj/aic.o
+ .debug_abbrev  0x00000441      0x18b obj/board_memories.o
+ .debug_abbrev  0x000005cc       0xa9 obj/board_lowlevel.o
+ .debug_abbrev  0x00000675      0x34f obj/stdio.o
+ .debug_abbrev  0x000009c4      0x11d obj/string.o
+ .debug_abbrev  0x00000ae1       0xc4 obj/dbgu.o
+ .debug_abbrev  0x00000ba5      0x241 obj/trace.o
+ .debug_abbrev  0x00000de6      0x196 obj/BootSdcard.o
+ .debug_abbrev  0x00000f7c      0x1b6 obj/diskio.o
+ .debug_abbrev  0x00001132      0x2d4 obj/tff.o
+ .debug_abbrev  0x00001406      0x113 obj/Media.o
+ .debug_abbrev  0x00001519      0x276 obj/MEDSdcard.o
+ .debug_abbrev  0x0000178f      0x162 obj/dmad.o
+ .debug_abbrev  0x000018f1      0x181 obj/dma.o
+ .debug_abbrev  0x00001a72      0x2c0 obj/mci_hs.o
+ .debug_abbrev  0x00001d32      0x323 obj/sdmmc_mci.o
+ .debug_abbrev  0x00002055       0xed obj/cp15.o
 
-.debug_aranges  0x00000000      0x8e8
+.debug_aranges  0x00000000      0x8d8
  .debug_aranges
                 0x00000000       0x28 obj/board_cstartup.o
  .debug_aranges
@@ -879,57 +878,57 @@ OUTPUT(bin/boot-at91sam9g45-ek-sdcard2ddram.elf elf32-littlearm)
  .debug_aranges
                 0x000006c0       0x90 obj/mci_hs.o
  .debug_aranges
-                0x00000750      0x120 obj/sdmmc_mci.o
+                0x00000750      0x110 obj/sdmmc_mci.o
  .debug_aranges
-                0x00000870       0x78 obj/cp15.o
+                0x00000860       0x78 obj/cp15.o
 
-.debug_ranges   0x00000000     0x12e0
+.debug_ranges   0x00000000     0x13e8
  .debug_ranges  0x00000000       0x20 obj/board_cstartup.o
  .debug_ranges  0x00000020      0x130 obj/cp15_asm_gcc.o
- .debug_ranges  0x00000150       0x40 obj/main.o
- .debug_ranges  0x00000190       0x38 obj/pio.o
- .debug_ranges  0x000001c8       0x28 obj/aic.o
- .debug_ranges  0x000001f0       0x60 obj/board_memories.o
- .debug_ranges  0x00000250       0x30 obj/board_lowlevel.o
- .debug_ranges  0x00000280      0x170 obj/stdio.o
- .debug_ranges  0x000003f0       0x50 obj/string.o
- .debug_ranges  0x00000440       0x30 obj/dbgu.o
- .debug_ranges  0x00000470       0x58 obj/trace.o
- .debug_ranges  0x000004c8       0x18 obj/BootSdcard.o
- .debug_ranges  0x000004e0       0x88 obj/diskio.o
- .debug_ranges  0x00000568      0x1e0 obj/tff.o
- .debug_ranges  0x00000748       0x48 obj/Media.o
- .debug_ranges  0x00000790       0x80 obj/MEDSdcard.o
- .debug_ranges  0x00000810       0x40 obj/dmad.o
- .debug_ranges  0x00000850       0xc8 obj/dma.o
- .debug_ranges  0x00000918      0x1d8 obj/mci_hs.o
- .debug_ranges  0x00000af0      0x780 obj/sdmmc_mci.o
- .debug_ranges  0x00001270       0x70 obj/cp15.o
+ .debug_ranges  0x00000150       0x38 obj/main.o
+ .debug_ranges  0x00000188       0x38 obj/pio.o
+ .debug_ranges  0x000001c0       0x28 obj/aic.o
+ .debug_ranges  0x000001e8       0x60 obj/board_memories.o
+ .debug_ranges  0x00000248       0x30 obj/board_lowlevel.o
+ .debug_ranges  0x00000278      0x170 obj/stdio.o
+ .debug_ranges  0x000003e8       0x50 obj/string.o
+ .debug_ranges  0x00000438       0x30 obj/dbgu.o
+ .debug_ranges  0x00000468       0x58 obj/trace.o
+ .debug_ranges  0x000004c0       0x18 obj/BootSdcard.o
+ .debug_ranges  0x000004d8       0x88 obj/diskio.o
+ .debug_ranges  0x00000560      0x1e0 obj/tff.o
+ .debug_ranges  0x00000740       0x48 obj/Media.o
+ .debug_ranges  0x00000788       0x80 obj/MEDSdcard.o
+ .debug_ranges  0x00000808       0x40 obj/dmad.o
+ .debug_ranges  0x00000848       0xc8 obj/dma.o
+ .debug_ranges  0x00000910      0x1d8 obj/mci_hs.o
+ .debug_ranges  0x00000ae8      0x890 obj/sdmmc_mci.o
+ .debug_ranges  0x00001378       0x70 obj/cp15.o
 
-.debug_frame    0x00000000     0x1738
- .debug_frame   0x00000000       0x34 obj/main.o
- .debug_frame   0x00000034       0x6c obj/pio.o
- .debug_frame   0x000000a0       0x48 obj/aic.o
- .debug_frame   0x000000e8       0xe0 obj/board_memories.o
- .debug_frame   0x000001c8       0x5c obj/board_lowlevel.o
- .debug_frame   0x00000224      0x1e8 obj/stdio.o
- .debug_frame   0x0000040c       0xbc obj/string.o
- .debug_frame   0x000004c8       0x60 obj/dbgu.o
- .debug_frame   0x00000528      0x160 obj/trace.o
- .debug_frame   0x00000688       0x44 obj/BootSdcard.o
- .debug_frame   0x000006cc       0xa8 obj/diskio.o
- .debug_frame   0x00000774      0x248 obj/tff.o
- .debug_frame   0x000009bc       0x38 obj/Media.o
- .debug_frame   0x000009f4      0x1e8 obj/MEDSdcard.o
- .debug_frame   0x00000bdc       0xec obj/dmad.o
- .debug_frame   0x00000cc8      0x22c obj/dma.o
- .debug_frame   0x00000ef4      0x1d8 obj/mci_hs.o
- .debug_frame   0x000010cc      0x4c0 obj/sdmmc_mci.o
- .debug_frame   0x0000158c      0x160 obj/cp15.o
- .debug_frame   0x000016ec       0x20 /indevel/minibox-android/arm-toolchains/codesourcery/arm-2009q3/bin/../lib/gcc/arm-none-eabi/4.4.1/libgcc.a(_udivsi3.o)
- .debug_frame   0x0000170c       0x2c /indevel/minibox-android/arm-toolchains/codesourcery/arm-2009q3/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/libc.a(lib_a-memcmp.o)
+.debug_frame    0x00000000     0x16a4
+ .debug_frame   0x00000000       0x38 obj/main.o
+ .debug_frame   0x00000038       0x6c obj/pio.o
+ .debug_frame   0x000000a4       0x48 obj/aic.o
+ .debug_frame   0x000000ec       0xe0 obj/board_memories.o
+ .debug_frame   0x000001cc       0x5c obj/board_lowlevel.o
+ .debug_frame   0x00000228      0x1e8 obj/stdio.o
+ .debug_frame   0x00000410       0xbc obj/string.o
+ .debug_frame   0x000004cc       0x60 obj/dbgu.o
+ .debug_frame   0x0000052c      0x160 obj/trace.o
+ .debug_frame   0x0000068c       0x44 obj/BootSdcard.o
+ .debug_frame   0x000006d0       0xa8 obj/diskio.o
+ .debug_frame   0x00000778      0x248 obj/tff.o
+ .debug_frame   0x000009c0       0x38 obj/Media.o
+ .debug_frame   0x000009f8      0x1e8 obj/MEDSdcard.o
+ .debug_frame   0x00000be0       0xec obj/dmad.o
+ .debug_frame   0x00000ccc      0x22c obj/dma.o
+ .debug_frame   0x00000ef8      0x1cc obj/mci_hs.o
+ .debug_frame   0x000010c4      0x434 obj/sdmmc_mci.o
+ .debug_frame   0x000014f8      0x160 obj/cp15.o
+ .debug_frame   0x00001658       0x20 /indevel/minibox-android/arm-toolchains/codesourcery/arm-2009q3/bin/../lib/gcc/arm-none-eabi/4.4.1/libgcc.a(_udivsi3.o)
+ .debug_frame   0x00001678       0x2c /indevel/minibox-android/arm-toolchains/codesourcery/arm-2009q3/bin/../lib/gcc/arm-none-eabi/4.4.1/../../../../arm-none-eabi/lib/libc.a(lib_a-memcmp.o)
 
-.debug_loc      0x00000000     0x61ea
+.debug_loc      0x00000000     0x5e1e
  .debug_loc     0x00000000       0x2b obj/main.o
  .debug_loc     0x0000002b       0x63 obj/pio.o
  .debug_loc     0x0000008e       0x32 obj/aic.o
@@ -939,16 +938,16 @@ OUTPUT(bin/boot-at91sam9g45-ek-sdcard2ddram.elf elf32-littlearm)
  .debug_loc     0x00000d70      0x35a obj/string.o
  .debug_loc     0x000010ca       0x76 obj/dbgu.o
  .debug_loc     0x00001140      0x553 obj/trace.o
- .debug_loc     0x00001693       0x90 obj/BootSdcard.o
- .debug_loc     0x00001723      0x428 obj/diskio.o
- .debug_loc     0x00001b4b      0xdf0 obj/tff.o
- .debug_loc     0x0000293b       0xd1 obj/Media.o
- .debug_loc     0x00002a0c      0x62e obj/MEDSdcard.o
- .debug_loc     0x0000303a      0x402 obj/dmad.o
- .debug_loc     0x0000343c      0x6fe obj/dma.o
- .debug_loc     0x00003b3a      0x94e obj/mci_hs.o
- .debug_loc     0x00004488     0x1b1c obj/sdmmc_mci.o
- .debug_loc     0x00005fa4      0x246 obj/cp15.o
+ .debug_loc     0x00001693       0xb1 obj/BootSdcard.o
+ .debug_loc     0x00001744      0x428 obj/diskio.o
+ .debug_loc     0x00001b6c      0xdf0 obj/tff.o
+ .debug_loc     0x0000295c       0xd1 obj/Media.o
+ .debug_loc     0x00002a2d      0x62e obj/MEDSdcard.o
+ .debug_loc     0x0000305b      0x402 obj/dmad.o
+ .debug_loc     0x0000345d      0x6fe obj/dma.o
+ .debug_loc     0x00003b5b      0x919 obj/mci_hs.o
+ .debug_loc     0x00004474     0x1764 obj/sdmmc_mci.o
+ .debug_loc     0x00005bd8      0x246 obj/cp15.o
 
 .debug_pubnames
                 0x00000000      0xd00
@@ -991,44 +990,44 @@ OUTPUT(bin/boot-at91sam9g45-ek-sdcard2ddram.elf elf32-littlearm)
  .debug_pubnames
                 0x00000be5      0x11b obj/cp15.o
 
-.debug_str      0x00000000     0x2ad1
- .debug_str     0x00000000      0x300 obj/main.o
-                                0x35f (size before relaxing)
- .debug_str     0x00000300      0x1be obj/pio.o
+.debug_str      0x00000000     0x2ae5
+ .debug_str     0x00000000      0x314 obj/main.o
+                                0x373 (size before relaxing)
+ .debug_str     0x00000314      0x1be obj/pio.o
                                 0x414 (size before relaxing)
- .debug_str     0x000004be       0xfd obj/aic.o
+ .debug_str     0x000004d2       0xfd obj/aic.o
                                 0x192 (size before relaxing)
- .debug_str     0x000005bb      0x6a5 obj/board_memories.o
+ .debug_str     0x000005cf      0x6a5 obj/board_memories.o
                                 0x873 (size before relaxing)
- .debug_str     0x00000c60      0x10c obj/board_lowlevel.o
+ .debug_str     0x00000c74      0x10c obj/board_lowlevel.o
                                 0x362 (size before relaxing)
- .debug_str     0x00000d6c      0x462 obj/stdio.o
+ .debug_str     0x00000d80      0x462 obj/stdio.o
                                 0x5d5 (size before relaxing)
- .debug_str     0x000011ce       0xdf obj/string.o
+ .debug_str     0x000011e2       0xdf obj/string.o
                                 0x1fe (size before relaxing)
- .debug_str     0x000012ad      0x13e obj/dbgu.o
+ .debug_str     0x000012c1      0x13e obj/dbgu.o
                                 0x1de (size before relaxing)
- .debug_str     0x000013eb       0xb9 obj/trace.o
+ .debug_str     0x000013ff       0xb9 obj/trace.o
                                 0x595 (size before relaxing)
- .debug_str     0x000014a4      0x29e obj/BootSdcard.o
+ .debug_str     0x000014b8      0x29e obj/BootSdcard.o
                                 0x42c (size before relaxing)
- .debug_str     0x00001742       0xd4 obj/diskio.o
+ .debug_str     0x00001756       0xd4 obj/diskio.o
                                 0x337 (size before relaxing)
- .debug_str     0x00001816      0x1ab obj/tff.o
+ .debug_str     0x0000182a      0x1ab obj/tff.o
                                 0x48c (size before relaxing)
- .debug_str     0x000019c1       0x51 obj/Media.o
+ .debug_str     0x000019d5       0x51 obj/Media.o
                                 0x231 (size before relaxing)
- .debug_str     0x00001a12      0x3b9 obj/MEDSdcard.o
+ .debug_str     0x00001a26      0x3b9 obj/MEDSdcard.o
                                 0x7ec (size before relaxing)
- .debug_str     0x00001dcb      0x1e0 obj/dmad.o
+ .debug_str     0x00001ddf      0x1e0 obj/dmad.o
                                 0x447 (size before relaxing)
- .debug_str     0x00001fab      0x328 obj/dma.o
+ .debug_str     0x00001fbf      0x328 obj/dma.o
                                 0x470 (size before relaxing)
- .debug_str     0x000022d3      0x2bd obj/mci_hs.o
+ .debug_str     0x000022e7      0x2bd obj/mci_hs.o
                                 0x8b6 (size before relaxing)
- .debug_str     0x00002590      0x436 obj/sdmmc_mci.o
+ .debug_str     0x000025a4      0x436 obj/sdmmc_mci.o
                                 0x9c5 (size before relaxing)
- .debug_str     0x000029c6      0x10b obj/cp15.o
+ .debug_str     0x000029da      0x10b obj/cp15.o
                                 0x206 (size before relaxing)
 
 Cross Reference Table
@@ -1257,6 +1256,7 @@ SD_WriteBlock                                     obj/sdmmc_mci.o
                                                   obj/MEDSdcard.o
 TRACE_DumpFrame                                   obj/trace.o
 TRACE_DumpMemory                                  obj/trace.o
+                                                  obj/main.o
 TRACE_GetHexa32                                   obj/trace.o
 TRACE_GetInteger                                  obj/trace.o
 TRACE_GetIntegerMinMax                            obj/trace.o

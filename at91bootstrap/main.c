@@ -399,7 +399,52 @@ int main()
     // SDcard
     //-------------------------------------------------------------------------
     #if defined(ORIGIN_sdcard)
+    /* Try to load kernel directly from SDCARD - npavel@mini-box.com*/
+    #define be32_to_cpu(a) ((a)[0] << 24 | (a)[1] << 16 | (a)[2] << 8 | (a)[3])
+    #define PHYS_SDRAM_BASE 0x70000000
+
+
+    unsigned char *tmp;
+    unsigned long jump_addr;
+    unsigned long load_addr;
+    unsigned long size;
+    
+    /* Override the parameter sent from Makefile */
+    tabDesc[0].dest = PHYS_SDRAM_BASE;
+    tabDesc[0].size = 0x20;
+    TRACE_INFO("Loading to 0x%08x\n\r", tabDesc[0].dest);
     BOOT_SDcard_CopyFile(tabDesc, TDESC_LISTSIZE(tabDesc));
+
+    /* Setup tmp so that we can read the kernel size */
+    tmp = PHYS_SDRAM_BASE + 12;
+    size = be32_to_cpu(tmp);
+
+    /* Now, load address */
+    tmp += 4;
+    load_addr = be32_to_cpu(tmp);
+
+    /* And finally, entry point */
+    tmp += 4;
+    jump_addr = be32_to_cpu(tmp);
+
+    /* Load the actual kernel */
+    tabDesc[0].dest = load_addr - 0x40;
+    tabDesc[0].size = size + 0x40;
+    TRACE_INFO("Loading to 0x%08x with size 0x%08x\n\r", tabDesc[0].dest, tabDesc[0].size);
+    BOOT_SDcard_CopyFile(tabDesc, TDESC_LISTSIZE(tabDesc));
+
+    TRACE_DumpMemory(tabDesc[0].dest, 0x200, tabDesc[0].dest);
+
+    /* Jump to kernel entry point */
+    tabDesc[0].dest = jump_addr;
+    TRACE_INFO("Modified jump to 0x%08x\n\r", tabDesc[0].dest);
+    GoToJumpAddress(tabDesc[0].dest, MACH_TYPE);
+
+return jump_addr;
+
+
+
+    
     #endif
 
     // NorFlash

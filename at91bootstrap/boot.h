@@ -97,7 +97,8 @@
     defined(BIN_SIZE)  &&  \
     defined(STR_DESCR)    
     
-const Tdesc tabDesc[] = {
+/*const Tdesc tabDesc[] = {*/
+Tdesc tabDesc[] = {
     {FROM_ADDR, FILE_NAME, DEST_ADDR, BIN_SIZE, STR_DESCR}    
 };
 

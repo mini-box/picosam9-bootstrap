@@ -348,6 +348,7 @@ int main()
     #if defined(DESTINATION_ddram)
     TRACE_INFO("Init DDRAM\n\r");
     BOARD_ConfigureDdram(0, BOARD_DDRAM_BUSWIDTH);
+    BOARD_ConfigureDdramCp1(16); //Init the second bank of memory@0x20000000
     #endif
 
     // BCRAM

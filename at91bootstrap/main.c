@@ -448,6 +448,7 @@ int main()
 
     return jump_addr;
     #endif
+    BOOT_SDcard_CopyFile(tabDesc, TDESC_LISTSIZE(tabDesc));
     #endif
 
     // NorFlash

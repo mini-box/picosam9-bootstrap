@@ -369,6 +369,14 @@ CFLAGS += -mthumb
 CFLAGS += -DOP_BOOTSTRAP_$(OP_BOOTSTRAP)
 endif
 
+ifeq ($(INIT_SECOND_MEM_BANK), on)
+CFLAGS += -D__INIT_SECOND_MEM_BANK__
+endif
+
+ifeq ($(DIRECT_BOOT), on)
+CFLAGS += -D__DIRECT_BOOT__
+endif
+
 ifeq ($(OP_BOOTSTRAP), on)
 C_INTERWORK_OBJECTS = cp15.o
 else

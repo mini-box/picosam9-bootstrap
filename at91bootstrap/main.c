@@ -348,7 +348,11 @@ int main()
     #if defined(DESTINATION_ddram)
     TRACE_INFO("Init DDRAM\n\r");
     BOARD_ConfigureDdram(0, BOARD_DDRAM_BUSWIDTH);
-    BOARD_ConfigureDdramCp1(16); //Init the second bank of memory@0x20000000
+    #if defined(__INIT_SECOND_MEM_BANK__)
+    //Init the second bank of memory@0x20000000
+    TRACE_INFO("Init second bank SDRAM\n\r");
+    BOARD_ConfigureDdramCp1(16); 
+    #endif
     #endif
 
     // BCRAM
@@ -400,6 +404,7 @@ int main()
     // SDcard
     //-------------------------------------------------------------------------
     #if defined(ORIGIN_sdcard)
+    #if defined(__DIRECT_BOOT__)
     /* Try to load kernel directly from SDCARD - npavel@mini-box.com*/
     #define be32_to_cpu(a) ((a)[0] << 24 | (a)[1] << 16 | (a)[2] << 8 | (a)[3])
     #define PHYS_SDRAM_BASE 0x70000000
@@ -441,11 +446,8 @@ int main()
     TRACE_INFO("Modified jump to 0x%08x\n\r", tabDesc[0].dest);
     GoToJumpAddress(tabDesc[0].dest, MACH_TYPE);
 
-return jump_addr;
-
-
-
-    
+    return jump_addr;
+    #endif
     #endif
 
     // NorFlash

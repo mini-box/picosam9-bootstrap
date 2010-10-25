@@ -221,6 +221,18 @@ static void GoToJumpAddress(unsigned int jumpAddr, unsigned int matchType)
     while(1);//never reach
 }
 
+static void PrintRTCConfig(unsigned int *slcksel)
+{
+    int rcen , osc32en, osc32byp, oscsel;
+
+    rcen = ((*slcksel) & (AT91C_SLCKSEL_RCEN)) >> 0;
+    osc32en = ((*slcksel) & (AT91C_SLCKSEL_OSC32EN)) >> 1;
+    osc32byp = ((*slcksel) & (AT91C_SLCKSEL_OSC32BYP)) >> 2;
+    oscsel = ((*slcksel) & (AT91C_SLCKSEL_OSCSEL)) >> 3;
+
+    TRACE_INFO("RTC Config: rcen: %d osc32en: %d osc32byp: %d oscsel: %d\n\r", rcen , osc32en, osc32byp, oscsel);
+}
+
 //------------------------------------------------------------------------------
 /// Test if at91bootstrap shall be erased. Return 1 if this is the case.
 /// It is not possible to physically disable soldered memories on some AT91SAM-EK
@@ -265,6 +277,9 @@ int main()
     unsigned int ret = 0;
     #endif
 
+    unsigned int *slcksel; // RTC oscillator configuration address
+    int i;
+
     // Enable User Reset
     AT91C_BASE_RSTC->RSTC_RMR |= AT91C_RSTC_URSTEN | (0xA5<<24);
 
@@ -293,7 +308,36 @@ int main()
     TRACE_INFO_WP("-- AT91bootstrap Project %s --\n\r", BOOTSTRAP_VERSION);
     TRACE_INFO_WP("-- %s\n\r", BOARD_NAME);
     TRACE_INFO_WP("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
-        
+    
+    
+    //-------------------------------------------------------------------------
+    // Configure RTC oscillator <npavel@mini-box.com>
+    //-------------------------------------------------------------------------
+    
+    /* Address of the configuration registry */
+    slcksel = AT91C_SYS_SLCKSEL;
+
+    PrintRTCConfig(slcksel);
+
+    /* Enable external crystal */
+    *slcksel |= AT91C_SLCKSEL_OSC32EN;
+    /* wait for the external crystal startup time */
+    for (i = 0; i < 600; i++) {
+        asm("    nop");
+    }
+    /* switch from internal RC to external crystal */
+    *slcksel |= AT91C_SLCKSEL_OSCSEL;
+    /* wait 5 slow clock cycles for sync */
+    for (i = 0; i < 500; i++) {
+        asm("    nop");
+    }
+
+    /* disable internal RC oscillator */
+    *slcksel &= ~(AT91C_SLCKSEL_RCEN);
+
+    PrintRTCConfig(slcksel);
+
+
     TRACE_INFO("Setting: MCK = %dMHz\n\r", (int)(BOARD_MCK/1000000));
 
     //-------------------------------------------------------------------------
@@ -439,7 +483,7 @@ int main()
     TRACE_INFO("Loading to 0x%08x with size 0x%08x\n\r", tabDesc[0].dest, tabDesc[0].size);
     BOOT_SDcard_CopyFile(tabDesc, TDESC_LISTSIZE(tabDesc));
 
-    TRACE_DumpMemory(tabDesc[0].dest, 0x200, tabDesc[0].dest);
+    /* TRACE_DumpMemory(tabDesc[0].dest, 0x200, tabDesc[0].dest); */
 
     /* Jump to kernel entry point */
     tabDesc[0].dest = jump_addr;

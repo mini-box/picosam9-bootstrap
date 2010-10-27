@@ -308,12 +308,11 @@ int main()
     TRACE_INFO_WP("-- AT91bootstrap Project %s --\n\r", BOOTSTRAP_VERSION);
     TRACE_INFO_WP("-- %s\n\r", BOARD_NAME);
     TRACE_INFO_WP("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
-    
-    
+
     //-------------------------------------------------------------------------
     // Configure RTC oscillator <npavel@mini-box.com>
     //-------------------------------------------------------------------------
-    
+
     /* Address of the configuration registry */
     slcksel = AT91C_SYS_SLCKSEL;
 
@@ -321,14 +320,17 @@ int main()
 
     /* Enable external crystal */
     *slcksel |= AT91C_SLCKSEL_OSC32EN;
-    /* wait for the external crystal startup time */
-    for (i = 0; i < 600; i++) {
+    /* wait for the external crystal startup time - 1 second*/
+
+    for (i = 0; i < 13300 * 5 * 1000; i++) {
         asm("    nop");
     }
+
     /* switch from internal RC to external crystal */
     *slcksel |= AT91C_SLCKSEL_OSCSEL;
+
     /* wait 5 slow clock cycles for sync */
-    for (i = 0; i < 500; i++) {
+    for (i = 0; i < 1000; i++) {
         asm("    nop");
     }
 

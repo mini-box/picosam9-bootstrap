@@ -31,6 +31,10 @@
 #-------------------------------------------------------------------------------
 #        User-modifiable options
 #-------------------------------------------------------------------------------
+# Disable Watchdog
+ifeq ($(WATCHDOG_DISABLED), on)
+CFLAGS += -DWATCHDOG_DISABLED
+endif
 
 # Optimization level, put in comment for debugging
 ifeq ($(OP_BOOTSTRAP), on)

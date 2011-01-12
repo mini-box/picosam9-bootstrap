@@ -9,6 +9,7 @@ BIN_SIZE=0x30000 \
 FILE_NAME=\\\"linux.bin\\\" \
 DEST_ADDR=0x73F00000 \
 OP_BOOTSTRAP_MCI=on \
+WATCHDOG_DISABLED=on \
 STR_DESCR=\\\"appli\\\" \
 TRACE_LEVEL=4 \
 clean all

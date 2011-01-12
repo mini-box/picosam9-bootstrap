@@ -305,7 +305,7 @@ int main()
     TRACE_CONFIGURE_ISP(DBGU_STANDARD, 115200, BOARD_MCK);
 
     TRACE_INFO_WP("\n\r");
-    TRACE_INFO_WP("-- AT91bootstrap Project %s --\n\r", BOOTSTRAP_VERSION);
+    TRACE_INFO_WP("-- pico-SAM9G45 Bootstrap %s --\n\r", BOOTSTRAP_VERSION);
     TRACE_INFO_WP("-- %s\n\r", BOARD_NAME);
     TRACE_INFO_WP("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
 

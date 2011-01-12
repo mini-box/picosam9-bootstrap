@@ -155,7 +155,9 @@ void LowLevelInit(void)
 
     /* Watchdog initialization
      *************************/
+#ifdef WATCHDOG_DISABLED
     AT91C_BASE_WDTC->WDTC_WDMR = AT91C_WDTC_WDDIS;
+#endif
 
     /* Remap
      *******/

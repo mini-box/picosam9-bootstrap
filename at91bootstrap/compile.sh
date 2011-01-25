@@ -1,4 +1,4 @@
-make CROSS_COMPILE=/indevel/minibox-android/arm-toolchains/codesourcery/arm-2009q3/bin/arm-none-eabi- \
+make CROSS_COMPILE=/indevel/minibox-android/arm-toolchains/picopc-toolchain/bin/arm-eabi- \
 CHIP=at91sam9g45 \
 BOARD=at91sam9g45-ek \
 ORIGIN=sdcard \

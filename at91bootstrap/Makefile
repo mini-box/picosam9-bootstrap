@@ -40,7 +40,8 @@ endif
 ifeq ($(OP_BOOTSTRAP), on)
 OPTIMIZATION = -march=armv5t -Os
 else
-OPTIMIZATION = -O2
+#OPTIMIZATION = -O2
+OPTIMIZATION = 
 endif
 
 # AT91 library directory

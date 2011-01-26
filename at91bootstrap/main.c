@@ -322,11 +322,12 @@ int main()
     *slcksel |= AT91C_SLCKSEL_OSC32EN;
 
     /* wait for the external crystal startup time - 1 second*/
-    for (i = 0; i < 13300 * 5 * 1000; i++) {
+    for (i = 0; i < 9000 * 1000; i++) {
+    /* doesn't work with codesourcery toolchain *./
     #pragma GCC push_options
     #pragma GCC optimize ("O0")
             asm("    nop");
-    #pragma GCC pop_options
+    #pragma GCC pop_options 
     }
 
     /* switch from internal RC to external crystal */

@@ -301,7 +301,9 @@ VPATH += $(EXTLIBS)/fat/fatfs
 VPATH += $(EXTLIBS)/fat/fatfs/src
 VPATH += $(AT91LIB)/peripherals/dma
 VPATH += $(AT91LIB)/drivers/dmad
+VPATH += $(AT91LIB)/memories/spi-flash
 
+C_OBJECTS += spid.o
 C_OBJECTS += BootSdcard.o
 C_OBJECTS += diskio.o
 C_OBJECTS += tff.o

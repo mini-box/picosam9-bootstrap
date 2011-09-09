@@ -193,6 +193,7 @@
 #include <dbgu/dbgu.h>
 #include <utility/assert.h>
 #include <utility/trace.h>
+#include <spi-flash/spid.h>
 
 #include "main.h"
 #include <boot.h>
@@ -433,7 +434,19 @@ int main()
     #endif //BOOT_RECOVERY
         BOOT_AT45_CopyBin(tabDesc, TDESC_LISTSIZE(tabDesc));
     #endif
-
+    
+    const Pin pins[]  = {BOARD_AT45_A_SPI_PINS, BOARD_AT45_A_NPCS_PIN};
+/*    
+    TRACE_INFO("Init SPI0 CS1\n\r");
+#define AT45_CSR(mck, spck) \                                                                                                                                
+    (AT91C_SPI_NCPHA | SPID_CSR_DLYBCT(mck, 250) \                                                                                                           
+    | SPID_CSR_DLYBS(mck, 250) | SPID_CSR_SCBR(mck, spck)) 
+#define SPCK        20000000 /// SPI clock frequency, in Hz.
+    Spid spid; /// SPI driver instance.
+    PIO_Configure(pins, PIO_LISTSIZE(pins));
+    SPID_Configure(&spid, BOARD_AT45_A_SPI_BASE, BOARD_AT45_A_SPI_ID);
+    SPID_ConfigureCS(&spid, BOARD_AT45_A_NPCS, AT45_CSR(BOARD_MCK, SPCK));
+*/
     // SerialFlash
     //-------------------------------------------------------------------------
     #if defined(ORIGIN_serialflash)

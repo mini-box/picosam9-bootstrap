@@ -251,6 +251,7 @@
 #define PINS_SPI0      PIN_SPI0_MISO, PIN_SPI0_MOSI, PIN_SPI0_SPCK
 /// SPI0 chip select 0 pin definition.
 #define PIN_SPI0_NPCS0 {1 << 3, AT91C_BASE_PIOB, AT91C_ID_PIOB, PIO_PERIPH_A, PIO_DEFAULT}
+#define PIN_SPI0_NPCS1 {1 << 18, AT91C_BASE_PIOB, AT91C_ID_PIOB, PIO_PERIPH_B, PIO_DEFAULT}
 
 /// SSC transmitter pins definition.
 #define PINS_SSC_TX { (1 << 0) | (1 << 1) | (1 << 2), \
@@ -379,7 +380,8 @@
 /// Chip select connected to the dataflash.
 #define BOARD_AT45_A_NPCS             0
 /// Chip select pin connected to the dataflash.
-#define BOARD_AT45_A_NPCS_PIN         PIN_SPI0_NPCS0
+//#define BOARD_AT45_A_NPCS_PIN         PIN_SPI0_NPCS0
+#define BOARD_AT45_A_NPCS_PIN         PIN_SPI0_NPCS1
 
 
 /// Base address of SPI peripheral connected to the serialflash.

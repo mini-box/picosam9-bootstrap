@@ -133,7 +133,8 @@ int BOOT_SDcard_CopyFile(const Tdesc *pTd, unsigned char nbTd)
         
         // check the file size
         if(ByteToRead < fileObject.fsize) {
-            TRACE_ERROR("File size %d <-> Max allowed size %d\n\r", (int)fileObject.fsize, (int)ByteToRead); 
+    	    /*TODO: Review we are only reading the header of a uImage kernel*/
+            /*TRACE_ERROR("File size %d <-> Max allowed size %d\n\r", (int)fileObject.fsize, (int)ByteToRead); */
             /*return 0;           */
         }
         

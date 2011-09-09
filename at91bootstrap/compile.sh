@@ -12,4 +12,5 @@ OP_BOOTSTRAP_MCI=on \
 WATCHDOG_DISABLED=on \
 STR_DESCR=\\\"appli\\\" \
 TRACE_LEVEL=4 \
+BOOTNAME="BOOT" \
 clean all

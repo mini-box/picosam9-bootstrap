@@ -416,7 +416,7 @@ $(MEMORIES): $(ASM_OBJECTS) $(C_OBJECTS) $(C_INTERWORK_OBJECTS)
 	echo "***** Boot from $(ORIGIN) to $(DESTINATION) (execute in $(MEMORIES)) *****"
 	echo "--------------------------------------------------------------------------"
 	$(CC) $(LDFLAGS) -T"$(AT91LIB)/boards/$(BOARD)/$(CHIP)/$(MEMORIES).lds" -o $(OUTPUT).elf $^
-	$(OBJCOPY) -O binary $(OUTPUT).elf $(OUTPUT).bin
+	$(OBJCOPY) -O binary $(OUTPUT).elf $(OUTPUT).BIN
 	$(SIZE) $(ASM_OBJECTS) $(C_OBJECTS) $(OUTPUT).elf
 
 $(C_OBJECTS): $(OBJ)/%.o: %.c Makefile

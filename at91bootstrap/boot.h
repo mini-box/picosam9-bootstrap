@@ -61,7 +61,7 @@
 #elif defined(at91cap9)
 #define MACH_TYPE 0x05A2            /* AT91CAP9 */
 #elif defined(at91sam9g45ek)
-#define MACH_TYPE       3838        /* picoSAM9G45 */
+#define MACH_TYPE       2212        /* AT91SAM9G45-EK */
 #elif defined(at91sam9g10ek)
 #define MACH_TYPE       2159        /* AT91SAM9G10-EK */
 

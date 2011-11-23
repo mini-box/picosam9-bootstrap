@@ -210,13 +210,13 @@ extern unsigned int BOARD_FPGA_InitMPBlock(void);
 //------------------------------------------------------------------------------
 /// Jump to the first address to execute application
 //------------------------------------------------------------------------------
-static void GoToJumpAddress(unsigned int jumpAddr, unsigned int matchType)
+static void GoToJumpAddress(unsigned int jumpAddr, unsigned int matchType, unsigned int args)
 {
-    typedef void(*fctType)(volatile unsigned int, volatile unsigned int);
-    void(*pFct)(volatile unsigned int r0_val, volatile unsigned int r1_val);
+    typedef void(*fctType)(volatile unsigned int, volatile unsigned int, volatile unsigned int);
+    void(*pFct)(volatile unsigned int r0_val, volatile unsigned int r1_val, volatile unsigned int r2_val);
     
     pFct = (fctType)jumpAddr;
-    pFct(0/*dummy value in r0*/, matchType/*matchType in r1*/);
+    pFct(0/*dummy value in r0*/, matchType/*matchType in r1*/, args/*args in r2*/);
 
     while(1);//never reach
 }
@@ -490,11 +490,14 @@ int main()
     BOOT_SDcard_CopyFile(tabDesc, TDESC_LISTSIZE(tabDesc));
 
     /* TRACE_DumpMemory(tabDesc[0].dest, 0x200, tabDesc[0].dest); */
+    tabDesc[0].fileName = DTB_NAME;
+    tabDesc[0].dest = DEST_ADDR;
+    tabDesc[0].size = BIN_SIZE;
+    BOOT_SDcard_CopyFile(tabDesc, TDESC_LISTSIZE(tabDesc));
 
     /* Jump to kernel entry point */
-    tabDesc[0].dest = jump_addr;
-    TRACE_INFO("Modified jump to 0x%08x\n\r", tabDesc[0].dest);
-    GoToJumpAddress(tabDesc[0].dest, MACH_TYPE);
+    TRACE_INFO("Modified jump to 0x%08x\n\r", jump_addr);
+    GoToJumpAddress(jump_addr, MACH_TYPE, DEST_ADDR);
 
     return jump_addr;
     #endif
@@ -531,7 +534,7 @@ int main()
     #endif
  
     TRACE_INFO("Jump to 0x%08x\n\r", tabDesc[0].dest);
-    GoToJumpAddress(tabDesc[0].dest, MACH_TYPE);
+    GoToJumpAddress(tabDesc[0].dest, MACH_TYPE, 0);
 
     return 0;//never reach
 }

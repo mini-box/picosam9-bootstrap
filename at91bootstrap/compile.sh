@@ -7,6 +7,7 @@ INIT_SECOND_MEM_BANK=on \
 DESTINATION=ddram \
 BIN_SIZE=0x30000 \
 FILE_NAME=\\\"linux.bin\\\" \
+DTB_NAME=\\\"linux.dtb\\\" \
 DEST_ADDR=0x73F00000 \
 OP_BOOTSTRAP_MCI=on \
 WATCHDOG_DISABLED=on \

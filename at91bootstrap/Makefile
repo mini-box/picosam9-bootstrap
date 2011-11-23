@@ -63,6 +63,7 @@ OBJ = obj
 # BIN_SIZE    (M)  module size to read and copy
 # FROM_ADDR   (M*) source memory address offset where the module will be read
 # FILE_NAME   (M*) name of the file to copy (for FAT formated memory)
+# DTB_NAME    (M*) name of the dtb file to copy (for FAT formated memory)
 # DEST_ADDR   (M)  destination memory address where the module will be copied
 # VDDMEMSEL   (O)  EBI power supply selection (1.8V, 3.3V)
 # STR_DESCR   (O)  Module description (optional user data)
@@ -106,6 +107,10 @@ endif
 
 ifdef FILE_NAME
 CFLAGS += -DFILE_NAME=$(FILE_NAME)
+endif
+
+ifdef DTB_NAME
+CFLAGS += -DDTB_NAME=$(DTB_NAME)
 endif
 
 ifdef STR_DESCR

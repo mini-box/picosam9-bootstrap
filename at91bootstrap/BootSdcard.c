@@ -100,7 +100,8 @@ int BOOT_SDcard_CopyFile(const Tdesc *pTd, unsigned char nbTd)
 {
     unsigned int ByteToRead;
     unsigned int ByteRead;
-  
+    const char *compatFile = "linux.bin";
+
     // Init Disk
     #if defined(BOARD_SD_BOOT_MCISLOT)
     MEDSdcard_Initialize(&medias[ID_DRV], BOARD_SD_BOOT_MCISLOT);
@@ -126,7 +127,10 @@ int BOOT_SDcard_CopyFile(const Tdesc *pTd, unsigned char nbTd)
         res = f_open(&fileObject, pTd->fileName , FA_OPEN_EXISTING|FA_READ);
         if( res != FR_OK ) {
             TRACE_ERROR("f_open read pb: 0x%X\n\r", res);
-            return 0;
+            TRACE_INFO("Trying to open %s \n", compatFile);
+            res = f_open(&fileObject, compatFile , FA_OPEN_EXISTING|FA_READ);
+            if (res != FR_OK)
+        	return 0;
         }
     
         ByteToRead = pTd->size;
@@ -135,7 +139,7 @@ int BOOT_SDcard_CopyFile(const Tdesc *pTd, unsigned char nbTd)
         if(ByteToRead < fileObject.fsize) {
     	    /*TODO: Review we are only reading the header of a uImage kernel*/
             /*TRACE_ERROR("File size %d <-> Max allowed size %d\n\r", (int)fileObject.fsize, (int)ByteToRead); */
-            /*return 0;           */
+            /*return 0;           */
         }
         
         res = f_read(&fileObject, (void*)(pTd->dest), ByteToRead, &ByteRead);

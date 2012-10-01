@@ -309,6 +309,7 @@ int main()
     TRACE_INFO_WP("-- %s\n\r", BOARD_NAME);
     TRACE_INFO_WP("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
 
+#if defined(__EXTERNAL_OSCILLATOR__)
     //-------------------------------------------------------------------------
     // Configure RTC oscillator <npavel@mini-box.com>
     //-------------------------------------------------------------------------
@@ -342,7 +343,7 @@ int main()
     *slcksel &= ~(AT91C_SLCKSEL_RCEN);
 
     PrintRTCConfig(slcksel);
-
+#endif
 
     TRACE_INFO("Setting: MCK = %dMHz\n\r", (int)(BOARD_MCK/1000000));
 

@@ -382,6 +382,11 @@ ifeq ($(DIRECT_BOOT), on)
 CFLAGS += -D__DIRECT_BOOT__
 endif
 
+ifeq ($(EXTERNAL_OSCILLATOR), on)
+CFLAGS += -D__EXTERNAL_OSCILLATOR__
+endif
+
+
 ifeq ($(OP_BOOTSTRAP), on)
 C_INTERWORK_OBJECTS = cp15.o
 else

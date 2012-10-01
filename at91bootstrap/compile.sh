@@ -4,6 +4,7 @@ BOARD=at91sam9g45-ek \
 ORIGIN=sdcard \
 DIRECT_BOOT=on \
 INIT_SECOND_MEM_BANK=on \
+EXTERNAL_OSCILLATOR=on \
 DESTINATION=ddram \
 BIN_SIZE=0x30000 \
 FILE_NAME=\\\"uImage\\\" \

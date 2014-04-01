@@ -37,6 +37,7 @@
 // DDRAM models used as parameter of configureDdram().
 #define DDR_MICRON_MT47H64M8           0
 #define DDR_SAMSUNG_M470T6554EZ3_CE6   1
+#define DDR_HYNIX_H5PS5182FFP          2
 
 #define VDDMEMSEL_1V8 0
 #define VDDMEMSEL_3V3 1

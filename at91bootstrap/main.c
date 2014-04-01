@@ -398,7 +398,7 @@ int main()
     //-------------------------------------------------------------------------
     #if defined(DESTINATION_ddram)
     TRACE_INFO("Init DDRAM\n\r");
-    BOARD_ConfigureDdram(0, BOARD_DDRAM_BUSWIDTH);
+    BOARD_ConfigureDdram(2, BOARD_DDRAM_BUSWIDTH);
     #if defined(__INIT_SECOND_MEM_BANK__)
     //Init the second bank of memory@0x20000000
     TRACE_INFO("Init second bank SDRAM\n\r");

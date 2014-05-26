@@ -424,6 +424,7 @@ typedef struct _AT91S_HDDRSDRC2 {
 #define 	AT91C_DDRC2_CAS_2                    (0x2 <<  4) // (HDDRSDRC2) 2 cycles (DDR1/SDR)
 #define 	AT91C_DDRC2_CAS_3                    (0x3 <<  4) // (HDDRSDRC2) 3 cycles (DDR2/DDR1/SDR)
 #define 	AT91C_DDRC2_CAS_4                    (0x4 <<  4) // (HDDRSDRC2) 4 cycles (DDR2)
+#define 	AT91C_DDRC2_CAS_5                    (0x5 <<  4) // (HDDRSDRC2) 5 cycles (DDR2)
 #define 	AT91C_DDRC2_CAS_2_5                  (0x6 <<  4) // (HDDRSDRC2) 2.5 cycles (DDR1)
 #define AT91C_DDRC2_DLL       (0x1 <<  7) // (HDDRSDRC2) DLL Reset
 #define 	AT91C_DDRC2_DLL_RESET_DISABLED       (0x0 <<  7) // (HDDRSDRC2) DLL normal mode

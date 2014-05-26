@@ -506,11 +506,13 @@ void BOARD_ConfigureDdram(unsigned char ddrModel, unsigned char busWidth)
             // 3. Program the features of DDR2-SDRAM device into the Timing Register HDDRSDRC2_T1PR.            
             // 4. Program the features of DDR2-SDRAM device into the Timing Register HDDRSDRC2_T2PR.            
 
-            WRITE(pDdrc, HDDRSDRC2_CR, AT91C_DDRC2_NC_DDR11_SDR10 |     // 11 column bits (1K) A[0:9] A11
+            WRITE(pDdrc, HDDRSDRC2_CR,  AT91C_DDRC2_NC_DDR10_SDR9 |     // 10 column bits (1K) A[0:9] 
                                        AT91C_DDRC2_NR_14          |     // 14 row bits    (8K)
-                                       AT91C_DDRC2_CAS_3          |     // CAS Latency 3
-                                       AT91C_DDRC2_DLL_RESET_DISABLED
+                                       AT91C_DDRC2_CAS_3          |     // CAS Latency 4
+                                       AT91C_DDRC2_DLL_RESET_DISABLED |
+					AT91C_DDRC2_DIC_DS		//mod DIC/DS Weak Driver strength
                                        ); // DLL not reset
+
 
             // assume timings for 7.5ns min clock period
             WRITE(pDdrc, HDDRSDRC2_T0PR, AT91C_DDRC2_TRAS_6       |     //  6 * 7.5 = 45 ns
@@ -522,7 +524,7 @@ void BOARD_ConfigureDdram(unsigned char ddrModel, unsigned char busWidth)
                                          AT91C_DDRC2_TWTR_1       |     //  1 clock cycle
                                          AT91C_DDRC2_TMRD_2);           //  2 clock cycles
 
-            WRITE(pDdrc, HDDRSDRC2_T1PR, AT91C_DDRC2_TXP_2  |           //  2 * 7.5 = 15 ns
+            WRITE(pDdrc, HDDRSDRC2_T1PR, AT91C_DDRC2_TXP_2  |           // 2 * 7.5 = 15 ns
                                          200 << 16          |           // 200 clock cycles, TXSRD: Exit self refresh delay to Read command
                                          16 << 8            |           // 16 * 7.5 = 120 ns TXSNR: Exit self refresh delay to non read command
                                          AT91C_DDRC2_TRFC_14 << 0);     // 14 * 7.5 = 105 ns (must be 105 ns for 512M DDR)
@@ -532,6 +534,27 @@ void BOARD_ConfigureDdram(unsigned char ddrModel, unsigned char busWidth)
                                          AT91C_DDRC2_TXARDS_7 |         //  7 clock cycles
                                          AT91C_DDRC2_TXARD_2);          //  2 clock cycles
 
+/*
+            // assume timings for 7.5ns min clock period
+            WRITE(pDdrc, HDDRSDRC2_T0PR, AT91C_DDRC2_TRAS_7       |     //m  6 * 7.5 = 45 ns
+                                         AT91C_DDRC2_TRCD_3       |     //m  2 * 7.5 = 15 ns
+                                         AT91C_DDRC2_TWR_3        |     //m  2 * 7.5 = 15 ns
+                                         AT91C_DDRC2_TRC_9        |     //m  8 * 7.5 = 75 ns
+                                         AT91C_DDRC2_TRP_3        |     //m  2 * 7.5 = 15 ns
+                                         AT91C_DDRC2_TRRD_2       |     //m  1 * 7.5 = 7.5 ns
+                                         AT91C_DDRC2_TWTR_1       |     //  1 clock cycle
+                                         AT91C_DDRC2_TMRD_3);           //m  2 clock cycles
+
+            WRITE(pDdrc, HDDRSDRC2_T1PR, AT91C_DDRC2_TXP_3  |           //m  2 * 7.5 = 15 ns
+                                         200 << 16          |           // 200 clock cycles, TXSRD: Exit self refresh delay to Read command
+                                         16 << 8            |           // 16 * 7.5 = 120 ns TXSNR: Exit self refresh delay to non read command
+                                         AT91C_DDRC2_TRFC_14 << 0);     // 14 * 7.5 = 105 ns (must be 105 ns for 512M DDR)
+
+            WRITE(pDdrc, HDDRSDRC2_T2PR, AT91C_DDRC2_TRTP_1   |         //  1 * 7.5 = 7.5 ns
+                                         AT91C_DDRC2_TRPA_0   |         
+                                         AT91C_DDRC2_TXARDS_7 |         //  7 clock cycles
+                                         AT91C_DDRC2_TXARD_2);          //  2 clock cycles
+*/
             // Step 3: An NOP command is issued to the DDR2-SDRAM to enable clock.
             WRITE(pDdrc, HDDRSDRC2_MR, AT91C_DDRC2_MODE_NOP_CMD);
             *pDdr = 0;
@@ -592,7 +615,7 @@ void BOARD_ConfigureDdram(unsigned char ddrModel, unsigned char busWidth)
             
             // Step 10: A Mode Register set (MRS) cycle is issued to reset DLL.
             WRITE(pDdrc, HDDRSDRC2_MR, AT91C_DDRC2_MODE_LMR_CMD);
-            *(pDdr) = 0;
+            *(pDdr) = 0x30; //mod: was 0
 
             // wait 2 cycles min
             for (i = 0; i < 100; i++) {
@@ -669,6 +692,11 @@ void BOARD_ConfigureDdram(unsigned char ddrModel, unsigned char busWidth)
       
             // Set Refresh timer
             WRITE(pDdrc, HDDRSDRC2_RTR, 0x0000024B);
+	    //WRITE(pDdrc, HDDRSDRC2_RTR, 0x00000125); //3.9/133Mhz 
+	    //WRITE(pDdrc, HDDRSDRC2_RTR, 0x000002ef); //10/133Mhz 
+	    //WRITE(pDdrc, HDDRSDRC2_RTR, 0x00000386); //12/133Mhz 
+	    //WRITE(pDdrc, HDDRSDRC2_RTR, 0x00000177); //5/133Mhz 
+	    //WRITE(pDdrc, HDDRSDRC2_RTR, 0x00000496); //15.625/133Mhz 
 
             // OK now we are ready to work on the DDRSDR
 

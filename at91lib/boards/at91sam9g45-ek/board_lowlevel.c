@@ -169,6 +169,10 @@ void LowLevelInit(void)
     AT91C_BASE_RTTC->RTTC_RTMR &= ~(AT91C_RTTC_ALMIEN | AT91C_RTTC_RTTINCIEN);
     AT91C_BASE_PITC->PITC_PIMR &= ~AT91C_PITC_PITIEN;
     
+
+    // Disable RTC interrupts to fix issue with boot hanging due to irq being raised early
+    // see: http://lists.infradead.org/pipermail/linux-arm-kernel/2012-June/105428.html
+    AT91C_BASE_RTC->RTC_IDR = 0x1f;
 #if defined(norflash)
     BOARD_ConfigureNorFlash(BOARD_NORFLASH_DFT_BUS_SIZE);
 #endif    

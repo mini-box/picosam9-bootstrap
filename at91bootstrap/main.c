@@ -221,7 +221,8 @@ static void GoToJumpAddress(unsigned int jumpAddr, unsigned int matchType)
     while(1);//never reach
 }
 
-static void PrintRTCConfig(unsigned int *slcksel)
+/* Returns 1 if external oscillator is enabled 0 if internal one is enabled. Also prints clock register values */
+static int CheckAndPrintRTCConfig(unsigned int *slcksel)
 {
     int rcen , osc32en, osc32byp, oscsel;
 
@@ -231,6 +232,11 @@ static void PrintRTCConfig(unsigned int *slcksel)
     oscsel = ((*slcksel) & (AT91C_SLCKSEL_OSCSEL)) >> 3;
 
     TRACE_INFO("RTC Config: rcen: %d osc32en: %d osc32byp: %d oscsel: %d\n\r", rcen , osc32en, osc32byp, oscsel);
+
+    if (rcen == 0 && osc32en == 1 && oscsel == 1)
+	return 1;
+
+    return 0;
 }
 
 //------------------------------------------------------------------------------
@@ -262,6 +268,39 @@ static unsigned char ShallEraseBootstrap()
 }
 #endif
 
+//-------------------------------------------------------------------------
+// Configure RTC oscillator <npavel@mini-box.com>
+//-------------------------------------------------------------------------
+#pragma GCC push_options
+#pragma GCC optimize ("O0")
+static void ConfigureExternalOscillator(unsigned int *slcksel)
+{
+    int i;
+
+    /* Enable external crystal */
+    *slcksel |= AT91C_SLCKSEL_OSC32EN;
+
+    /* wait for the external crystal startup time - 1 second */
+    for (i = 0; i < 9000 * 1000; i++) {
+    /* doesn't work with codesourcery toolchain */
+#pragma GCC push_options
+#pragma GCC optimize ("O0")
+            asm("    nop");
+#pragma GCC pop_options 
+    }
+
+    /* switch from internal RC to external crystal */
+    *slcksel |= AT91C_SLCKSEL_OSCSEL;
+
+    /* wait 5 slow clock cycles for sync */
+    for (i = 0; i < 1000; i++) {
+        asm("    nop");
+    }
+
+    /* disable internal RC oscillator */
+    *slcksel &= ~(AT91C_SLCKSEL_RCEN);
+}
+#pragma GCC pop_options 
 //------------------------------------------------------------------------------
 /// Bootstrap main application.
 /// Transfer data from media to main memory and return the next application entry
@@ -277,8 +316,44 @@ int main()
     unsigned int ret = 0;
     #endif
 
+    int oscen = 0;
     unsigned int *slcksel; // RTC oscillator configuration address
-    int i;
+
+
+    //-------------------------------------------------------------------------
+    // Test if at91bootstrap shall be erased (button pressed by user)
+    //-------------------------------------------------------------------------
+    #if defined(BOOT_RECOVERY)
+    shallEraseBootstrap = ShallEraseBootstrap();
+    #endif
+    //-------------------------------------------------------------------------
+    // Configure traces
+    //-------------------------------------------------------------------------
+    TRACE_CONFIGURE_ISP(DBGU_STANDARD, 115200, BOARD_MCK);
+
+    TRACE_INFO_WP("\n\r");
+    TRACE_INFO_WP("-- pico-SAM9G45 Bootstrap %s --\n\r", BOOTSTRAP_VERSION);
+    TRACE_INFO_WP("-- %s\n\r", BOARD_NAME);
+    TRACE_INFO_WP("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
+
+
+#if defined(__EXTERNAL_OSCILLATOR__)
+    //-------------------------------------------------------------------------
+    // Configure RTC oscillator <npavel@mini-box.com>
+    //-------------------------------------------------------------------------
+
+    /* Address of the configuration registry */
+    slcksel = AT91C_SYS_SLCKSEL;
+
+    oscen = CheckAndPrintRTCConfig(slcksel);
+
+    if (oscen == 0)
+    {
+	TRACE_INFO("Enabling 32768Hz Slow Clock Oscillator...\n\r");
+	ConfigureExternalOscillator(slcksel);
+	CheckAndPrintRTCConfig(slcksel);
+    }
+#endif
 
     // Enable User Reset
     AT91C_BASE_RSTC->RSTC_RMR |= AT91C_RSTC_URSTEN | (0xA5<<24);
@@ -291,59 +366,6 @@ int main()
     AT91C_BASE_MATRIX->MATRIX_USBPCR = ~AT91C_MATRIX_USBPCR_PUON;
     #endif
 
-
-    //-------------------------------------------------------------------------
-    // Test if at91bootstrap shall be erased (button pressed by user)
-    //-------------------------------------------------------------------------
-    #if defined(BOOT_RECOVERY)
-    shallEraseBootstrap = ShallEraseBootstrap();
-    #endif
-
-    //-------------------------------------------------------------------------
-    // Configure traces
-    //-------------------------------------------------------------------------
-    TRACE_CONFIGURE_ISP(DBGU_STANDARD, 115200, BOARD_MCK);
-
-    TRACE_INFO_WP("\n\r");
-    TRACE_INFO_WP("-- pico-SAM9G45 Bootstrap %s --\n\r", BOOTSTRAP_VERSION);
-    TRACE_INFO_WP("-- %s\n\r", BOARD_NAME);
-    TRACE_INFO_WP("-- Compiled: %s %s --\n\r", __DATE__, __TIME__);
-
-#if defined(__EXTERNAL_OSCILLATOR__)
-    //-------------------------------------------------------------------------
-    // Configure RTC oscillator <npavel@mini-box.com>
-    //-------------------------------------------------------------------------
-
-    /* Address of the configuration registry */
-    slcksel = AT91C_SYS_SLCKSEL;
-
-    PrintRTCConfig(slcksel);
-
-    /* Enable external crystal */
-    *slcksel |= AT91C_SLCKSEL_OSC32EN;
-
-    /* wait for the external crystal startup time - 1 second */
-    for (i = 0; i < 9000 * 1000; i++) {
-    /* doesn't work with codesourcery toolchain */
-    #pragma GCC push_options
-    #pragma GCC optimize ("O0")
-            asm("    nop");
-    #pragma GCC pop_options 
-    }
-
-    /* switch from internal RC to external crystal */
-    *slcksel |= AT91C_SLCKSEL_OSCSEL;
-
-    /* wait 5 slow clock cycles for sync */
-    for (i = 0; i < 1000; i++) {
-        asm("    nop");
-    }
-
-    /* disable internal RC oscillator */
-    *slcksel &= ~(AT91C_SLCKSEL_RCEN);
-
-    PrintRTCConfig(slcksel);
-#endif
 
     TRACE_INFO("Setting: MCK = %dMHz\n\r", (int)(BOARD_MCK/1000000));
 

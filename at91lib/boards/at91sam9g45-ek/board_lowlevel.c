@@ -136,8 +136,10 @@ void LowLevelInit(void)
     while (!(AT91C_BASE_PMC->PMC_SR & AT91C_PMC_MCKRDY));
 #endif
 
+
     /* Initialize AIC
      ****************/
+
     AT91C_BASE_AIC->AIC_IDCR = 0xFFFFFFFF;
     AT91C_BASE_AIC->AIC_SVR[0] = (unsigned int) defaultFiqHandler;
     for (i = 1; i < 31; i++) {
@@ -151,6 +153,8 @@ void LowLevelInit(void)
 
         AT91C_BASE_AIC->AIC_EOICR = 0;
     }
+
+
 
 
     /* Watchdog initialization
@@ -173,6 +177,9 @@ void LowLevelInit(void)
     // Disable RTC interrupts to fix issue with boot hanging due to irq being raised early
     // see: http://lists.infradead.org/pipermail/linux-arm-kernel/2012-June/105428.html
     AT91C_BASE_RTC->RTC_IDR = 0x1f;
+    AT91C_BASE_RTC->RTC_SCCR = 0x1f; //Status clear command register
+    AT91C_BASE_RTC->RTC_IMR = 0x1f;
+
 #if defined(norflash)
     BOARD_ConfigureNorFlash(BOARD_NORFLASH_DFT_BUS_SIZE);
 #endif    
